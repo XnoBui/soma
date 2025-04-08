@@ -1,0 +1,5 @@
+# Ignore nested Git repository
+soma/
+
+# macOS system files
+.DS_Store
