@@ -43,6 +43,7 @@ function initAnimations() {
 function setupDynamicShimmer() {
     const mainTitle = document.querySelector('.hero-main-title');
     const ctaTitle = document.querySelector('.cta-title');
+    const featurePoints = document.querySelectorAll('.feature-point');
     
     if (mainTitle) {
         // Get the text content length
@@ -60,6 +61,16 @@ function setupDynamicShimmer() {
         ctaTitle.style.setProperty('--shimmer-spread', `${dynamicSpread}px`);
     }
     
+    // Apply shimmer effect to feature points
+    if (featurePoints.length > 0) {
+        featurePoints.forEach(point => {
+            const textLength = point.textContent.length;
+            // Use a smaller spread for feature points since they're smaller text
+            const dynamicSpread = Math.max(10, Math.min(30, textLength * 0.6));
+            point.style.setProperty('--shimmer-spread', `${dynamicSpread}px`);
+        });
+    }
+    
     // Recalculate on window resize for responsive behavior
     window.addEventListener('resize', () => {
         if (mainTitle) {
@@ -75,6 +86,17 @@ function setupDynamicShimmer() {
             const multiplier = window.innerWidth < 768 ? 0.5 : 0.8;
             const dynamicSpread = Math.max(15, Math.min(60, textLength * multiplier));
             ctaTitle.style.setProperty('--shimmer-spread', `${dynamicSpread}px`);
+        }
+        
+        // Update feature points on resize
+        if (featurePoints.length > 0) {
+            featurePoints.forEach(point => {
+                const textLength = point.textContent.length;
+                // Smaller multiplier for mobile
+                const multiplier = window.innerWidth < 768 ? 0.4 : 0.6;
+                const dynamicSpread = Math.max(8, Math.min(25, textLength * multiplier));
+                point.style.setProperty('--shimmer-spread', `${dynamicSpread}px`);
+            });
         }
     });
 }
