@@ -33,7 +33,50 @@ function initAnimations() {
         item.style.transform = 'translateY(0)';
     });
     
+    // Set up dynamic shimmer effect for main title
+    setupDynamicShimmer();
+    
     // Do NOT animate intro section on page load - only on scroll
+}
+
+// Set up dynamic shimmer effect based on text length
+function setupDynamicShimmer() {
+    const mainTitle = document.querySelector('.hero-main-title');
+    const ctaTitle = document.querySelector('.cta-title');
+    
+    if (mainTitle) {
+        // Get the text content length
+        const textLength = mainTitle.textContent.length;
+        // Calculate dynamic spread - adjust multiplier as needed
+        const dynamicSpread = Math.max(20, Math.min(60, textLength * 0.8));
+        // Set the CSS variable
+        mainTitle.style.setProperty('--shimmer-spread', `${dynamicSpread}px`);
+    }
+    
+    if (ctaTitle) {
+        // Apply similar effect to CTA title
+        const textLength = ctaTitle.textContent.length;
+        const dynamicSpread = Math.max(20, Math.min(60, textLength * 0.8));
+        ctaTitle.style.setProperty('--shimmer-spread', `${dynamicSpread}px`);
+    }
+    
+    // Recalculate on window resize for responsive behavior
+    window.addEventListener('resize', () => {
+        if (mainTitle) {
+            const textLength = mainTitle.textContent.length;
+            // Adjust spread based on viewport width for mobile
+            const multiplier = window.innerWidth < 768 ? 0.5 : 0.8;
+            const dynamicSpread = Math.max(15, Math.min(60, textLength * multiplier));
+            mainTitle.style.setProperty('--shimmer-spread', `${dynamicSpread}px`);
+        }
+        
+        if (ctaTitle) {
+            const textLength = ctaTitle.textContent.length;
+            const multiplier = window.innerWidth < 768 ? 0.5 : 0.8;
+            const dynamicSpread = Math.max(15, Math.min(60, textLength * multiplier));
+            ctaTitle.style.setProperty('--shimmer-spread', `${dynamicSpread}px`);
+        }
+    });
 }
 
 // Animate intro section elements (Apple-style)
@@ -53,7 +96,7 @@ function animateIntroSection() {
     }
 }
 
-// Initialize smooth scrolling for navigation
+// Initialize smooth scrolling for navigation and mobile menu
 function initNavigation() {
     // Smooth scroll for navigation links
     const navLinks = document.querySelectorAll('.nav-link');
@@ -66,9 +109,7 @@ function initNavigation() {
             let targetId;
             const linkText = this.textContent.trim().toLowerCase();
             
-            if (linkText === 'get $aiai') {
-                targetId = 'feature-earn';
-            } else if (linkText === 'whitepaper') {
+            if (linkText === 'whitepaper') {
                 targetId = 'feature-shape';
             } else if (linkText === 'connect') {
                 targetId = 'collection-section';
@@ -82,10 +123,123 @@ function initNavigation() {
                         behavior: 'smooth',
                         block: 'start'
                     });
+                    
+                    // Close mobile menu if open
+                    if (document.body.classList.contains('mobile-menu-open')) {
+                        toggleMobileMenu();
+                    }
                 }
             }
         });
     });
+    
+    // Mobile menu toggle
+    const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
+    if (mobileMenuIcon) {
+        mobileMenuIcon.addEventListener('click', toggleMobileMenu);
+    }
+    
+    // Create mobile menu if it doesn't exist
+    if (!document.querySelector('.mobile-menu')) {
+        createMobileMenu();
+    }
+}
+
+// Toggle mobile menu visibility
+function toggleMobileMenu() {
+    const body = document.body;
+    body.classList.toggle('mobile-menu-open');
+    
+    const mobileMenu = document.querySelector('.mobile-menu');
+    if (mobileMenu) {
+        if (body.classList.contains('mobile-menu-open')) {
+            mobileMenu.style.display = 'flex';
+            setTimeout(() => {
+                mobileMenu.style.opacity = '1';
+                mobileMenu.style.transform = 'translateY(0)';
+            }, 10);
+        } else {
+            mobileMenu.style.opacity = '0';
+            mobileMenu.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                mobileMenu.style.display = 'none';
+            }, 300);
+        }
+    }
+}
+
+// Create mobile menu
+function createMobileMenu() {
+    // Create mobile menu element
+    const mobileMenu = document.createElement('div');
+    mobileMenu.className = 'mobile-menu';
+    mobileMenu.style.display = 'none';
+    mobileMenu.style.opacity = '0';
+    mobileMenu.style.transform = 'translateY(-20px)';
+    mobileMenu.style.position = 'fixed';
+    mobileMenu.style.top = '80px';
+    mobileMenu.style.left = '0';
+    mobileMenu.style.width = '100%';
+    mobileMenu.style.padding = '20px';
+    mobileMenu.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
+    mobileMenu.style.backdropFilter = 'blur(20px)';
+    mobileMenu.style.WebkitBackdropFilter = 'blur(20px)';
+    mobileMenu.style.zIndex = '99';
+    mobileMenu.style.flexDirection = 'column';
+    mobileMenu.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    
+    // Add navigation links to mobile menu
+    const navLinks = document.querySelectorAll('.main-nav .nav-link');
+    navLinks.forEach(link => {
+        const mobileLink = document.createElement('a');
+        mobileLink.href = link.href;
+        mobileLink.className = 'mobile-nav-link';
+        mobileLink.textContent = link.textContent;
+        mobileLink.style.color = '#FFFFFF';
+        mobileLink.style.textDecoration = 'none';
+        mobileLink.style.padding = '15px 0';
+        mobileLink.style.fontSize = '14px';
+        mobileLink.style.fontWeight = '700';
+        mobileLink.style.textTransform = 'uppercase';
+        mobileLink.style.letterSpacing = '0.05em';
+        mobileLink.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+        
+        // Add click event to mobile links
+        mobileLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Get the target section based on link text
+            let targetId;
+            const linkText = this.textContent.trim().toLowerCase();
+            
+            if (linkText === 'whitepaper') {
+                targetId = 'feature-shape';
+            } else if (linkText === 'connect') {
+                targetId = 'collection-section';
+            }
+            
+            if (targetId) {
+                const targetSection = document.getElementById(targetId) || document.querySelector(`.${targetId}`);
+                if (targetSection) {
+                    // Close mobile menu
+                    toggleMobileMenu();
+                    
+                    // Smooth scroll to target
+                    setTimeout(() => {
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 300);
+                }
+            }
+        });
+        
+        mobileMenu.appendChild(mobileLink);
+    });
+    
+    // Add mobile menu to the body
+    document.body.appendChild(mobileMenu);
 }
 
 // Initialize scroll-based effects

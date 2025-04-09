@@ -214,21 +214,99 @@ body {
     font-size: 64px;
     line-height: 0.9;
     text-align: center;
-    background: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    /* CSS Variables for customization */
+    --base-color: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
+    --shimmer-color: rgba(255, 255, 255, 0.8);
+    --shimmer-duration: 2s;
+    --shimmer-spread: 40px; /* Will be dynamically adjusted by JS */
+    /* Base styling */
+    position: relative;
+    z-index: 1;
     margin: 0;
     padding: 0;
     letter-spacing: 0.02em;
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 1.5s ease, transform 1.5s ease; /* Slower animation (1.5s instead of 1s) */
+    transition: opacity 1.5s ease, transform 1.5s ease;
+    /* Text styling */
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* Shimmer effect */
+    background-image: 
+        linear-gradient(
+            90deg,
+            transparent calc(50% - var(--shimmer-spread)),
+            var(--shimmer-color),
+            transparent calc(50% + var(--shimmer-spread))
+        ),
+        var(--base-color);
+    background-size: 250% 100%, 100% 100%;
+    background-position: 100% 0%, 0% 0%;
+    background-repeat: no-repeat;
+    animation: framer-shimmer var(--shimmer-duration) linear infinite;
 }
 
 .hero-main-title.revealed {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Glow effect for hero-main-title - only on mobile */
+@media (max-width: 768px) {
+    .hero-main-title::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        filter: blur(10px);
+        z-index: -1;
+        opacity: 0.85;
+        animation: glowKineticTight 3s infinite ease-in-out;
+        will-change: transform, filter, opacity;
+        display: block;
+        text-align: center;
+        pointer-events: none;
+        letter-spacing: 0.02em; /* Match the original text */
+        line-height: 0.9; /* Match the original text */
+    }
+
+    .hero-main-title::before {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        filter: blur(18px);
+        z-index: -2;
+        opacity: 0.7;
+        animation: glowKineticWideTight 4s infinite ease-in-out;
+        will-change: transform, filter, opacity;
+        display: block;
+        text-align: center;
+        pointer-events: none;
+        letter-spacing: 0.02em; /* Match the original text */
+        line-height: 0.9; /* Match the original text */
+    }
+}
+
+/* For desktop, no glow effect on hero-main-title */
+@media (min-width: 769px) {
+    .hero-main-title::before,
+    .hero-main-title::after {
+        display: none;
+    }
 }
 
 .hero-sub-features {
@@ -462,10 +540,10 @@ body {
 
 /* CTA Section */
 .cta-section {
-    padding: 100px 0;
+    padding: 100px 0 20px; /* Reduced bottom padding */
     text-align: center;
     position: relative;
-    min-height: 100vh;
+    /* min-height: 100vh; */ /* Removed to allow section to shrink */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -485,12 +563,204 @@ body {
     font-size: 64px;
     line-height: 125%;
     text-align: center;
-    color: #FFFFFF;
     margin-bottom: 30px;
     letter-spacing: 0.02em;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1.5s ease, transform 1.5s ease;
+    /* CSS Variables for customization */
+    --base-color: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
+    --shimmer-color: rgba(255, 255, 255, 0.8);
+    --shimmer-duration: 2s;
+    --shimmer-spread: 40px; /* Will be dynamically adjusted by JS */
+    /* Base styling */
+    position: relative;
+    opacity: 1;
+    transform: translateY(0);
+    z-index: 1;
+    /* Text styling */
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* Shimmer effect */
+    background-image: 
+        linear-gradient(
+            90deg,
+            transparent calc(50% - var(--shimmer-spread)),
+            var(--shimmer-color),
+            transparent calc(50% + var(--shimmer-spread))
+        ),
+        var(--base-color);
+    background-size: 250% 100%, 100% 100%;
+    background-position: 100% 0%, 0% 0%;
+    background-repeat: no-repeat;
+    animation: framer-shimmer var(--shimmer-duration) linear infinite;
+}
+
+/* Define the glow animation with movement for desktop */
+@keyframes glowKinetic {
+    0% {
+        filter: blur(12px);
+        opacity: 0.7;
+        transform: translateX(-1px) translateY(0px);
+    }
+    25% {
+        filter: blur(14px);
+        opacity: 0.8;
+        transform: translateX(0px) translateY(-1px);
+    }
+    50% {
+        filter: blur(16px);
+        opacity: 0.9;
+        transform: translateX(1px) translateY(0px);
+    }
+    75% {
+        filter: blur(14px);
+        opacity: 0.8;
+        transform: translateX(0px) translateY(1px);
+    }
+    100% {
+        filter: blur(12px);
+        opacity: 0.7;
+        transform: translateX(-1px) translateY(0px);
+    }
+}
+
+/* Tighter animation for main title's first glow layer */
+@keyframes glowKineticTight {
+    0% {
+        filter: blur(9px);
+        opacity: 0.8;
+        transform: translateX(-0.5px) translateY(0px);
+    }
+    25% {
+        filter: blur(10px);
+        opacity: 0.85;
+        transform: translateX(0px) translateY(-0.5px);
+    }
+    50% {
+        filter: blur(11px);
+        opacity: 0.9;
+        transform: translateX(0.5px) translateY(0px);
+    }
+    75% {
+        filter: blur(10px);
+        opacity: 0.85;
+        transform: translateX(0px) translateY(0.5px);
+    }
+    100% {
+        filter: blur(9px);
+        opacity: 0.8;
+        transform: translateX(-0.5px) translateY(0px);
+    }
+}
+
+@keyframes glowKineticWide {
+    0% {
+        filter: blur(20px);
+        opacity: 0.4;
+        transform: translateX(-2px) translateY(0px);
+    }
+    25% {
+        filter: blur(22px);
+        opacity: 0.5;
+        transform: translateX(0px) translateY(-2px);
+    }
+    50% {
+        filter: blur(25px);
+        opacity: 0.6;
+        transform: translateX(2px) translateY(0px);
+    }
+    75% {
+        filter: blur(22px);
+        opacity: 0.5;
+        transform: translateX(0px) translateY(2px);
+    }
+    100% {
+        filter: blur(20px);
+        opacity: 0.4;
+        transform: translateX(-2px) translateY(0px);
+    }
+}
+
+/* Tighter animation for main title's second glow layer */
+@keyframes glowKineticWideTight {
+    0% {
+        filter: blur(16px);
+        opacity: 0.6;
+        transform: translateX(-1px) translateY(0px);
+    }
+    25% {
+        filter: blur(17px);
+        opacity: 0.65;
+        transform: translateX(0px) translateY(-1px);
+    }
+    50% {
+        filter: blur(18px);
+        opacity: 0.7;
+        transform: translateX(1px) translateY(0px);
+    }
+    75% {
+        filter: blur(17px);
+        opacity: 0.65;
+        transform: translateX(0px) translateY(1px);
+    }
+    100% {
+        filter: blur(16px);
+        opacity: 0.6;
+        transform: translateX(-1px) translateY(0px);
+    }
+}
+
+/* Improved shimmer animation based on Framer component */
+@keyframes framer-shimmer {
+  from {
+    background-position: 100% 0%, 0% 0%; /* Start shimmer from right */
+  }
+  to {
+    background-position: 0% 0%, 0% 0%; /* Move shimmer to left */
+  }
+}
+
+/* Glowing text effect for CTA title - works regardless of revealed class */
+.cta-title::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: blur(15px);
+    z-index: -1;
+    opacity: 0.8;
+    animation: glowKinetic 3s infinite ease-in-out;
+    will-change: transform, filter, opacity;
+    display: block; /* Ensure it's displayed */
+    text-align: center;
+    pointer-events: none; /* Prevent interference with text selection */
+}
+
+/* Additional glow layer for stronger effect - works regardless of revealed class */
+.cta-title::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: blur(25px);
+    z-index: -2;
+    opacity: 0.6;
+    animation: glowKineticWide 4s infinite ease-in-out;
+    will-change: transform, filter, opacity;
+    display: block; /* Ensure it's displayed */
+    text-align: center;
+    pointer-events: none; /* Prevent interference with text selection */
 }
 
 .cta-title.revealed {
@@ -507,6 +777,7 @@ body {
     color: #BFBFBF;
     max-width: 700px;
     margin: 0 auto;
+    padding-bottom: 20px; /* Added bottom padding */
     letter-spacing: 0.02em;
     opacity: 0;
     transform: translateY(20px);
@@ -543,7 +814,7 @@ body {
 
 /* Collection Section */
 .collection-section {
-    padding: 100px 0 50px; /* Reduced bottom padding */
+    padding: 0 0 50px; /* Set top padding to 0 */
     text-align: center;
     position: relative;
     background-color: #000000;
