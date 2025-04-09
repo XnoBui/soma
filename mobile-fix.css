@@ -1,0 +1,7 @@
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .feature-text-container {
+    position: relative !important;
+    z-index: 20 !important;
+  }
+}

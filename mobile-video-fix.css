@@ -1,0 +1,56 @@
+/* Fix for feature videos on mobile */
+@media (max-width: 768px) {
+  .feature-video-container {
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  
+  .feature-video, .feature-fallback-image {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    aspect-ratio: 16/9 !important;
+  }
+  
+  
+  /* Hide the existing overlay */
+  .feature-overlay-container {
+    display: none !important;
+  }
+  
+  /* Position text below the video with 48px gap */
+  .feature-text-container {
+    position: relative !important;
+    margin-top: 48px !important;
+    padding: 0 20px !important;
+    z-index: 10 !important;
+  }
+  
+  /* CTA video styling for mobile */
+  .cta-image-container {
+    position: relative !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .cta-image-container video.cta-video {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+  }
+  
+  /* NFT video styling for mobile */
+  .agent-gallery .agent-item {
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  
+  .agent-gallery .agent-item video.nft-video {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+  }
+}

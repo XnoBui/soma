@@ -82,6 +82,17 @@ body {
     gap: 24px;
 }
 
+/* Hide mobile menu icon by default */
+.mobile-menu-icon {
+    display: none;
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 24px; /* Adjust size as needed */
+    cursor: pointer;
+    padding: 0; /* Remove padding if any */
+}
+
 .nav-link {
     display: flex;
     justify-content: center;
@@ -110,7 +121,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end; /* Align content to bottom for desktop */
     background-color: #000000;
 }
 
@@ -147,20 +158,21 @@ body {
     z-index: 2;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Change from center to flex-end */
+    justify-content: flex-end; /* Keep internal alignment */
     align-items: center;
-    padding-bottom: 40px; /* Decrease padding to move content lower */
-    flex: 1;
+    padding-bottom: 0; /* Remove bottom padding for desktop bottom alignment */
+    flex: 1; /* Allow content to fill space before being pushed down for desktop */
 }
 
 .hero-logo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 0; /* Ensure no extra margin at the bottom */
 }
 
 .soma-logo-svg {
-    width: 400px; /* Changed width back to 400px */
+    width: 400px; /* Reverted to original size */
     height: auto;
     margin-bottom: 10px;
     opacity: 0;
@@ -227,6 +239,7 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto 40px;
+    white-space: nowrap; /* Prevent feature points from wrapping */
 }
 
 .feature-point {
@@ -261,17 +274,24 @@ body {
     background-color: #000000;
 }
 
-.intro-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    max-width: 800px;
-    padding: 0 40px;
-}
+    .intro-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        max-width: 800px;
+        padding: 0 40px;
+    }
+
+    @media (max-width: 768px) {
+        .intro-content {
+            padding: 0 20px;
+            margin: 40px 0;
+        }
+    }
 
 .intro-title-container {
     margin-bottom: 30px;
@@ -341,28 +361,28 @@ body {
     display: block;
 }
 
-.feature-overlay-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 30%; /* Only cover the bottom portion for text readability */
-    z-index: 1;
-}
+    @media (max-width: 768px) {
+        .feature-item {
+            position: relative; /* Ensure proper positioning context */
+            overflow: visible; /* Allow content to overflow */
+        }
+        
+        .feature-video-container {
+            position: relative; /* Ensure proper stacking context */
+            z-index: 0; /* Lower z-index for the video container */
+        }
+        
+        /* Position the text container */
+        .feature-text-container {
+            position: relative; /* Changed to relative positioning */
+            width: 100%;
+            z-index: 20; /* Higher z-index to ensure it's above the video */
+            padding: 20px; /* Add padding for better spacing */
+            background-color: transparent; /* No background */
+        }
+    }
 
-/* Removed blur overlay */
-
-/* Subtle gradient at the bottom only for text readability */
-.feature-gradient-overlay-1 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-/* Removed second gradient overlay */
+/* Removed overlay styles */
 
 .feature-text-container {
     width: 100%;
@@ -502,7 +522,7 @@ body {
 .cta-image-container {
     position: relative;
     width: 100%;
-    max-width: 500px;
+    max-width: 1000px; /* 2 times bigger than original 500px */
     margin: 0 auto;
     opacity: 0;
     transform: translateY(20px);
@@ -515,17 +535,10 @@ body {
     transform: translateY(0);
 }
 
-.cta-image {
+.cta-video {
     width: 100%;
     height: auto;
-}
-
-.type-gene-overlay {
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
+    display: block;
 }
 
 /* Collection Section */
@@ -571,6 +584,17 @@ body {
 
 .agent-item img:hover {
     transform: scale(1.05);
+}
+
+.agent-item img {
+    display: none; /* Hide images on all devices */
+}
+
+.agent-item video.nft-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* Show videos on all devices */
 }
 
 .collection-text-content {
@@ -776,67 +800,186 @@ body {
 @media (max-width: 768px) {
     .header {
         padding: 15px 20px;
-        flex-direction: column;
+        flex-direction: row; /* Change back to row for logo/icon alignment */
+        justify-content: space-between; /* Space out logo and icon */
+        align-items: center; /* Vertically align items */
         gap: 15px;
+        position: absolute; /* Keep header absolute for alignment */
+        /* Revert mobile header background to desktop style */
+        background-color: rgba(0, 0, 0, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+
+    /* .logo-container { width: 120px; height: auto; } */ /* Remove redundant rule */
+    .header {
+        height: auto; /* Allow height to adjust */
+        min-height: 60px; /* Ensure minimum height */
+    }
+    .logo-container {
+        width: 90px; /* Slightly smaller logo */
+        justify-content: flex-start; /* Ensure logo stays left */
+    }
+    .main-nav { display: none; } /* Keep desktop nav hidden */
+    .mobile-menu-icon { display: block; } /* Show mobile menu icon */
+
+    .hero-section {
+        height: auto;
+        min-height: 80vh; /* Slightly less than full viewport */
+        padding: 80px 20px 0; /* Remove bottom padding */
+        justify-content: flex-end; /* Explicitly push content to bottom */
+    }
+    .hero-content {
+        margin-top: 0;
+        padding-bottom: 0; /* Set to 0 to move content to the very bottom */
+    }
+
+    .hero-logo-container {
+        margin-bottom: 0; /* Remove bottom margin to push content lower */
+    }
+    .soma-logo-svg { width: 168px; } /* 2x bigger than 84px */
+    .hero-subtitle-jp { font-size: 28px; } /* Adjust size */
+
+    /* Intro Section adjustments */
+    .intro-section {
+        height: auto;
+        min-height: 60vh;
+        padding: 60px 10px 0; /* Remove bottom padding to bring feature videos closer */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .hero-main-title {
+        font-size: 32px; /* Matching Figma design */
+        line-height: 0.9; /* Matching Figma design */
+        letter-spacing: normal; /* Reset letter spacing */
+    }
+    .hero-title-frame {
+        margin-bottom: 0; /* Remove bottom margin as it's now last */
+        max-width: 100%; /* Allow frame to take full width */
+    }
+    .hero-sub-features {
+        flex-direction: column;
+        gap: 10px; /* Reduced gap */
+        margin-bottom: 60px; /* Increased margin to create more space above title */
+    }
+    
+    .hero-title-frame {
+        margin-top: 20px; /* Add space above title */
+        margin-bottom: 28px; /* Exactly 28px space below title as requested */
+    }
+    .feature-point {
+        font-size: 11.6px; /* Match Figma design */
+        color: #595959; /* Match Figma design */
+        text-shadow: 0px 0px 12px rgba(0, 0, 0, 0.5); /* Match Figma shadow effect */
+        font-weight: 500; /* Match Figma design */
+        line-height: 1.15; /* Match Figma design */
+    }
+
+    /* Features Section adjustments */
+    .feature-item {
+        min-height: auto;
+        padding: 0; /* Remove padding to allow full-width video */
+        margin-bottom: 20px; /* Add margin between feature items */
+        border-bottom: none; /* Remove border for mobile view */
+    }
+    .feature-video-container { 
+        height: auto; /* Allow natural height */
+        width: 100vw; /* Full viewport width */
+        margin-left: calc(-50vw + 50%); /* Center the container */
         position: relative;
-        background-color: #000;
+    }
+    
+    .feature-video, .feature-fallback-image {
+        width: 100%;
+        height: auto; /* Allow natural height ratio */
+        object-fit: cover; /* Cover the container */
+        aspect-ratio: 16/9; /* Maintain aspect ratio */
+    }
+    .feature-text-container {
+        flex-direction: column; /* Stack title and description */
+        padding: 30px 20px; /* Adjust padding */
+        text-align: center; /* Center text */
+        position: relative; /* Change from absolute */
+        bottom: auto;
+        left: auto;
+        background-color: transparent; /* Remove backdrop */
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
     }
-    
-    .logo-container { width: 120px; height: auto; }
-    .main-nav { justify-content: center; }
-    
-    .hero-section { 
-        height: auto;
-        min-height: 100vh;
-        padding: 100px 20px 60px;
-    }
-    
-    .hero-content {
-        margin-top: 0;
-    }
-    
-    .hero-logo-container {
-        margin-bottom: 40px;
-    }
-    
-    .soma-logo-text { font-size: 80px; }
-    .hero-subtitle-jp { font-size: 24px; }
-    .hero-sub-features { 
-        flex-direction: column; 
-        gap: 15px; 
-        margin-bottom: 40px;
-    }
-    
-    .hero-title-container { 
-        padding: 15px 30px; 
-        margin-bottom: 40px;
+    .feature-title-frame {
+        flex-basis: auto; /* Reset flex basis */
+        margin-bottom: 15px; /* Add space below title */
         width: 100%;
     }
-    
-    .hero-main-title { font-size: 36px; }
-    
-    .feature-item { min-height: auto; padding: 60px 20px; }
-    .feature-title { font-size: 32px; }
-    
-    .cta-section { padding: 60px 20px; }
-    .cta-title { font-size: 40px; }
-    .cta-description { font-size: 18px; }
-    
-    .agent-gallery { grid-template-columns: repeat(2, 1fr); }
-    .collection-title { font-size: 60px; }
-    .collection-info { font-size: 28px; }
-    .soma-logo-text-collection { font-size: 80px; }
+    .feature-title {
+        font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 24px;
+        font-weight: 700; /* Bold */
+        line-height: 29px; /* ~1.2x font size */
+        color: #E6E6E6;
+        letter-spacing: 0.02em;
+        text-align: left;
+        background: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .feature-description-frame {
+        flex-basis: auto; /* Reset flex basis */
+        margin-left: 0; /* Remove left margin */
+        width: 100%;
+    }
+    .feature-description {
+        font-family: "SF Pro", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 16px;
+        font-weight: 400; /* Regular */
+        line-height: 24px; /* 1.5x font size */
+        color: #E6E6E6;
+        letter-spacing: 0.03em;
+        text-align: left;
+    }
+
+    /* CTA Section adjustments */
+    .cta-section {
+        padding: 60px 20px; /* Adjust padding */
+        min-height: auto;
+    }
+    .cta-title { font-size: 32px; } /* Adjust size */
+    .cta-description { font-size: 16px; } /* Adjust size */
+    .cta-image-container { max-width: 80%; } /* Adjust image size */
+
+    /* Collection Section adjustments */
+    .collection-section { padding: 60px 0 40px; }
+    .agent-gallery {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+        gap: 5px; /* Reduce gap */
+        padding: 0 10px; /* Adjust padding */
+        margin-bottom: 60px; /* Adjust spacing */
+    }
+    .collection-text-content { margin-bottom: 60px; }
+    .collection-logo-svg { width: 200px; } /* Smaller logo */
+    .collection-soma-jp { font-size: 24px; } /* Adjust size */
+    .collection-title-first { font-size: 36px; } /* Adjust size */
+    .collection-title-second { font-size: 48px; } /* Adjust size */
+    .collection-info { font-size: 24px; } /* Adjust size */
+
+    /* Footer adjustments */
+    .footer { padding: 40px 0; }
+    .social-links { gap: 20px; }
+    .social-links a { font-size: 20px; }
 }
 
+/* Further adjustments for very small screens */
 @media (max-width: 480px) {
-    .soma-logo-text { font-size: 60px; }
-    .hero-subtitle-jp { font-size: 20px; }
-    .hero-main-title { font-size: 28px; }
-    .feature-title { font-size: 28px; }
-    .feature-description { font-size: 16px; }
-    .cta-title { font-size: 32px; }
-    .collection-title { font-size: 40px; }
-    .collection-info { font-size: 22px; }
+    .hero-main-title { font-size: 26px; }
+    .feature-point { font-size: 14px; }
+    .feature-title { font-size: 24px; }
+    .feature-description { font-size: 15px; }
+    .cta-title { font-size: 28px; }
+    .cta-description { font-size: 15px; }
+    .collection-title-first { font-size: 30px; }
+    .collection-title-second { font-size: 40px; }
+    .collection-info { font-size: 20px; }
+    .poxel-font { font-size: 12px; }
 }

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ææa | SOMA</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile-fix.css">
+    <link rel="stylesheet" href="mobile-overlay.css">
+    <link rel="stylesheet" href="mobile-video-fix.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Using a common CDN for Helvetica Neue - adjust if specific version needed -->
@@ -15,6 +18,54 @@
         body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         /* Placeholder for Poxel Font if needed */
         .poxel-font { font-family: 'Courier New', Courier, monospace; /* Replace with actual Poxel Font if available */ }
+        
+        /* Mobile-specific styles for feature items */
+        @media (max-width: 768px) {
+            .feature-item {
+                position: relative;
+                margin-bottom: 40px;
+            }
+            
+            .feature-video-container {
+                width: 100%;
+            }
+            
+            .feature-video, .feature-fallback-image {
+                width: 100%;
+                height: auto;
+            }
+            
+            
+            .feature-overlay-container {
+                display: none !important;
+            }
+            
+            .feature-text-container {
+                position: relative;
+                z-index: 20 !important;
+                padding: 0 20px;
+                margin-top: -120px;
+            }
+            
+            .feature-title {
+                font-size: 28px;
+                font-weight: 500;
+                margin-bottom: 15px;
+                background: linear-gradient(to right, #E8E0D7 0%, #547B84 54%, #A0A57B 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                text-align: left;
+            }
+            
+            .feature-description {
+                font-size: 14px;
+                line-height: 125%;
+                color: #8C8C8C !important;
+                font-weight: 700 !important;
+                text-align: left;
+            }
+        }
     </style>
 </head>
 <body>
@@ -24,6 +75,10 @@
             <div class="logo-container">
                 <img src="images/aelogo_1.png" alt="Ææa Logo" class="logo-img">
             </div>
+            <!-- Mobile Menu Icon -->
+            <button class="mobile-menu-icon" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
             <nav class="main-nav">
                 <a href="#" class="nav-link">GET $AIAI</a>
                 <a href="#" class="nav-link">WHITEPAPER</a>
@@ -80,13 +135,15 @@
             <!-- Introduction Section -->
             <section class="intro-section">
                 <div class="intro-content">
-                    <div class="hero-title-frame">
-                        <h2 class="hero-main-title">Meet Your AI Sidekick:<br>Customize, Earn, and Shape the Future</h2>
-                    </div>
+                    <!-- Feature points moved first -->
                     <div class="hero-sub-features">
                         <div class="feature-point" style="--index: 0">Customizable AI Companions</div>
                         <div class="feature-point" style="--index: 1">Income Generation</div>
                         <div class="feature-point" style="--index: 2">Influence Over the Platform's Future</div>
+                    </div>
+                    <!-- Main title moved second, matching Figma design -->
+                    <div class="hero-title-frame">
+                        <h2 class="hero-main-title">Meet Your AI Sidekick:<br>Customize, Earn, and Shape the Future</h2>
                     </div>
                 </div>
             </section>
@@ -94,16 +151,13 @@
             <!-- Features Section -->
             <section class="features-section">
                 <!-- Feature 1: Customizable AI Companions -->
-                <div class="feature-item" id="feature-customizable">
+                <div class="feature-item" id="feature-customizable" style="position: relative; margin-bottom: 40px;">
                     <div class="feature-content-wrapper">
                         <div class="feature-video-container">
                             <video autoplay loop muted playsinline class="feature-video">
                                 <source src="videos/feature1.mp4" type="video/mp4">
                                 <img src="images/AEAEA_SOCIAL_The_Birth_of_an_AI_Twin_1_1.png" alt="Customizable AI Companions Visual" class="feature-fallback-image">
                             </video>
-                        </div>
-                        <div class="feature-overlay-container">
-                            <div class="feature-gradient-overlay-1"></div>
                         </div>
                         <div class="feature-text-container">
                             <div class="feature-title-frame">
@@ -125,9 +179,6 @@
                                 <img src="images/MODEL_1_CAM_87_24_2.png" alt="Earn with Agent-as-a-Service Visual" class="feature-fallback-image">
                             </video>
                         </div>
-                        <div class="feature-overlay-container">
-                            <div class="feature-gradient-overlay-1"></div>
-                        </div>
                         <div class="feature-text-container">
                             <div class="feature-title-frame">
                                 <h3 class="feature-title">Earn with Agent-as-a-Service</h3>
@@ -148,9 +199,6 @@
                                 <img src="images/MODEL_1_CAM_87_24_4.png" alt="Shape the Future Visual" class="feature-fallback-image">
                             </video>
                         </div>
-                        <div class="feature-overlay-container">
-                            <div class="feature-gradient-overlay-1"></div>
-                        </div>
                         <div class="feature-text-container">
                             <div class="feature-title-frame">
                                 <h3 class="feature-title">Shape the Platform's Future</h3>
@@ -170,10 +218,9 @@
                     <p class="cta-description">Join our waitlist to be the first to mint your SOMA NFT and start customizing, earning, and influencing today!</p>
                 </div>
                 <div class="cta-image-container">
-                    <img src="images/AI Gene image.jpg" alt="AI Gene" class="cta-image">
-                    <div class="type-gene-overlay">
-                        <span class="poxel-font">TYPE GENE</span>
-                    </div>
+                    <video autoplay loop muted playsinline class="cta-video">
+                        <source src="videos/AI Gene video.mp4" type="video/mp4">
+                    </video>
                 </div>
             </section>
 
@@ -182,14 +229,44 @@
                 <!-- Agent Gallery Grid -->
                 <div class="agent-gallery">
                     <!-- Row 1 -->
-                    <div class="agent-item"><img src="images/NFT_1.png" alt="Agent 1"></div>
-                    <div class="agent-item"><img src="images/NFT_2.png" alt="Agent 2"></div>
-                    <div class="agent-item"><img src="images/NFT_3.png" alt="Agent 3"></div>
-                    <div class="agent-item"><img src="images/NFT_4.png" alt="Agent 4"></div>
+                    <div class="agent-item">
+                        <img src="images/NFT_1.png" alt="Agent 1">
+                        <video autoplay loop muted playsinline class="nft-video">
+                            <source src="videos/NFT_1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="agent-item">
+                        <img src="images/NFT_2.png" alt="Agent 2">
+                        <video autoplay loop muted playsinline class="nft-video">
+                            <source src="videos/NFT_2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="agent-item">
+                        <img src="images/NFT_3.png" alt="Agent 3">
+                        <video autoplay loop muted playsinline class="nft-video">
+                            <source src="videos/NFT_3.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="agent-item">
+                        <img src="images/NFT_4.png" alt="Agent 4">
+                        <video autoplay loop muted playsinline class="nft-video">
+                            <source src="videos/NFT_4.mp4" type="video/mp4">
+                        </video>
+                    </div>
                     
                     <!-- Row 2 -->
-                    <div class="agent-item"><img src="images/NFT_5.png" alt="Agent 5"></div>
-                    <div class="agent-item"><img src="images/NFT_6.png" alt="Agent 6"></div>
+                    <div class="agent-item">
+                        <img src="images/NFT_5.png" alt="Agent 5">
+                        <video autoplay loop muted playsinline class="nft-video">
+                            <source src="videos/NFT_5.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="agent-item">
+                        <img src="images/NFT_6.png" alt="Agent 6">
+                        <video autoplay loop muted playsinline class="nft-video">
+                            <source src="videos/NFT_6.mp4" type="video/mp4">
+                        </video>
+                    </div>
                     <div class="agent-item"><img src="images/NFT_7.png" alt="Agent 7"></div>
                     <div class="agent-item"><img src="images/NFT_8.png" alt="Agent 8"></div>
                     
