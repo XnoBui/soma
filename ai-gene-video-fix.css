@@ -7,12 +7,12 @@
   .cta-section .cta-image-container video,
   .cta-section video,
   video.cta-video {
-    width: 120% !important; /* Larger than full width */
+    width: 100% !important; /* Reduced from 120% to 100% */
     height: auto !important;
     max-width: none !important;
     position: relative !important;
-    left: -10% !important; /* Center the enlarged video */
-    transform: scale(1.2) !important; /* Additional scaling */
+    left: 0 !important; /* Removed the -10% offset */
+    transform: scale(1) !important; /* Removed the additional scaling */
     transform-origin: center !important;
     z-index: 999 !important; /* High z-index to ensure visibility */
     margin: 0 auto !important;
